@@ -34,13 +34,13 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-task<Test>("unitTest"){
+task<Test>("unitTest") {
     group = "verification"
     description = "containerTest"
 
     useJUnitPlatform {
         includeTags("unt")
-        excludeTags("container","integration")
+        excludeTags("container", "integration")
     }
 }
 
