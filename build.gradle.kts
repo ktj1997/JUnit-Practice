@@ -39,7 +39,7 @@ task<Test>("unitTest") {
     description = "containerTest"
 
     useJUnitPlatform {
-        includeTags("unt")
+        includeTags("unit")
         excludeTags("container", "integration")
     }
 }

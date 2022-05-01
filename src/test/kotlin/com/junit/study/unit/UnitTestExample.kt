@@ -5,11 +5,12 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 class UnitTestExample {
     companion object {
-        val logger = LoggerFactory.getLogger(this.javaClass)
+        val logger: Logger = LoggerFactory.getLogger(this.javaClass)
         @JvmStatic
         @BeforeAll
         fun beforeAll() {
