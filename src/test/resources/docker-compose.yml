@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  db-mysql:
+    image: "mysql"
+    container_name: "db-mysql"
+    ports:
+      - "3306"
+    networks:
+      - my-network
+    environment:
+      MYSQL_DATABASE: "sample"
+      MYSQL_ROOT_PASSWORD: "1q2w3e4r"
+
+  my-node:
+    image: "ktj7916/my-node"
+    ports:
+      - "3000"
+    networks:
+      - my-network
+    depends_on:
+      - db-mysql
+networks:
+  my-network:
+    driver: bridge
