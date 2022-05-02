@@ -18,7 +18,7 @@ class ValueParameterizedTest {
      * SimpleArgunemtConverter를 통해서 원하는 형태의 객체로 변환 시킬 수 있다.
      */
 
-    @Unit
+    @UnitTest
     @ParameterizedTest
     @DisplayName("String 파라미터 테스트")
     @ValueSource(strings = ["hello", "my", "name", "is", "taejun"])
@@ -26,7 +26,7 @@ class ValueParameterizedTest {
         logger.info("Current message is $message")
     }
 
-    @Unit
+    @UnitTest
     @ParameterizedTest
     @DisplayName("Integer 파라미터 테스트")
     @ValueSource(ints = ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))

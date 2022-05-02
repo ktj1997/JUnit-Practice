@@ -1,8 +1,8 @@
-package com.junit.study.integration
+package com.junit.study.unit
 
 import org.junit.jupiter.api.Tag
 
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
-@Tag("integration")
-annotation class Integration()
+@Tag("unit")
+annotation class UnitTest()

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class UnitTestExample {
+class UnitTestTestExample {
     companion object {
         val logger: Logger = LoggerFactory.getLogger(this.javaClass)
         @JvmStatic
@@ -34,7 +34,7 @@ class UnitTestExample {
     }
 
     @Test
-    @Unit
+    @UnitTest
     fun unitTest() {
         logger.info("unitTest")
     }

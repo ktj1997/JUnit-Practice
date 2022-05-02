@@ -14,7 +14,7 @@ class RepeatedTest {
     /**
      * n번만큼 반복하는 테스트
      */
-    @Unit
+    @UnitTest
     @DisplayName("반복 테스트")
     @RepeatedTest(value = 10, name = "{currentRepetition}/{totalRepetitions}")
     fun repeatedTest(repetitionInfo: RepetitionInfo) {

@@ -31,7 +31,7 @@ class CsvParameterizedTest {
      * CSV Source 기본 delimiter : ','
      * 문자열을 인자로 사용할 때는 공백을 ' '을 통해서 표현 가능하다.
      */
-    @Unit
+    @UnitTest
     @ParameterizedTest
     @DisplayName("기본 제공 Aggregator")
     @CsvSource(value = ["26, 'kim taejun'", "24, lee"])
@@ -44,7 +44,7 @@ class CsvParameterizedTest {
         logger.info(people.toString())
     }
 
-    @Unit
+    @UnitTest
     @ParameterizedTest
     @DisplayName("Custom Aggregator")
     @CsvSource(value = ["26, 'kim taejun'", "24, lee"])

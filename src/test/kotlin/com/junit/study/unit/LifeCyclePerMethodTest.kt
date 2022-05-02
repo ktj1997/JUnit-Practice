@@ -22,21 +22,21 @@ class LifeCyclePerMethodTest {
      * counter의 값이 공유되지 않는다.
      */
 
-    @Unit
+    @UnitTest
     @Test
     fun firstCounterTest() {
         logger.info(this.toString())
         assertEquals(counter++, 1)
     }
 
-    @Unit
+    @UnitTest
     @Test
     fun secondCounterTest() {
         logger.info(this.toString())
         assertEquals(counter++, 1)
     }
 
-    @Unit
+    @UnitTest
     @Test
     fun thirdCounterTest() {
         logger.info(this.toString())

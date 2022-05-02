@@ -39,7 +39,7 @@ class LifeCyclePerClassTest {
     }
 
     @Test
-    @Unit
+    @UnitTest
     @Order(1)
     fun firstCounterTest() {
         logger.info(this.toString())
@@ -47,7 +47,7 @@ class LifeCyclePerClassTest {
     }
 
     @Test
-    @Unit
+    @UnitTest
     @Order(2)
     fun secondCounterTest() {
         logger.info(this.toString())
@@ -55,7 +55,7 @@ class LifeCyclePerClassTest {
     }
 
     @Test
-    @Unit
+    @UnitTest
     @Order(3)
     fun thirdCounterTest() {
         logger.info(this.toString())
