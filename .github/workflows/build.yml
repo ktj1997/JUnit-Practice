@@ -51,4 +51,4 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            테스트 통과!
+            :white_check_mark: 테스트 통과!
