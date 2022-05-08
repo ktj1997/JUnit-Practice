@@ -20,6 +20,5 @@ class RepeatedTest {
     fun repeatedTest(repetitionInfo: RepetitionInfo) {
 
         logger.info("Test is started ${repetitionInfo.currentRepetition}/${repetitionInfo.totalRepetitions}")
-        throw RuntimeException("Action Test")
     }
 }
