@@ -24,7 +24,25 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: lintCheck
+      - name: Lint-Check
+        id: lintCheck
         run: ./gradlew ktlintCheck
       - name: unitTest
+        id: unitTest
         run: ./gradlew unitTest
+
+
+      - name: Comment when Lint was Failed
+        if: steps.lintCheck.outputs.exit_code != 0
+        uses: peter-evans/create-or-update-comment@a35cf36e5301d70b76f316e867e7788a55a31dae
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+              KtLint 체크가 필요합니다.
+      - name: Comment When UnitTest Was Failed
+        if: steps.unitTest.outputs.exit_code != 0
+        uses: peter-evans/create-or-update-comment@a35cf36e5301d70b76f316e867e7788a55a31dae
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            KtLint 체크가 필요합니다.
