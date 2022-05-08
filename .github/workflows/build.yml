@@ -45,3 +45,10 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             UnitTest 체크가 필요합니다.
+      - name: Comment When All Step Was Passed
+        uses: peter-evans/create-or-update-comment@v2
+        if: success()
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            테스트 통과!
