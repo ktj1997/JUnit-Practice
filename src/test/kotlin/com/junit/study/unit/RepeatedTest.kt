@@ -1,6 +1,5 @@
 package com.junit.study.unit
 
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.RepetitionInfo
@@ -21,6 +20,5 @@ class RepeatedTest {
     fun repeatedTest(repetitionInfo: RepetitionInfo) {
 
         logger.info("Test is started ${repetitionInfo.currentRepetition}/${repetitionInfo.totalRepetitions}")
-        throw RuntimeException("Action Test")
     }
 }

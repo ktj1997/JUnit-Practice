@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class LifeCyclePerClassTest {
     companion object {
+
         val logger: Logger = LoggerFactory.getLogger(this.javaClass)
     }
 
