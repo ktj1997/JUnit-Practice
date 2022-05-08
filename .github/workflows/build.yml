@@ -35,13 +35,13 @@ jobs:
         if: failure() && steps.lintCheck.outcome == 'failure'
         uses: peter-evans/create-or-update-comment@a35cf36e5301d70b76f316e867e7788a55a31dae
         with:
-          issue-number: ${{ github.event.issue.number }}
+          issue-number: ${{ github.event.pull_request.number }}
           body: |
               KtLint 체크가 필요합니다.
       - name: Comment When UnitTest Was Failed
         if: failure() && steps.unitTest.outcome == 'failure'
         uses: peter-evans/create-or-update-comment@a35cf36e5301d70b76f316e867e7788a55a31dae
         with:
-          issue-number: ${{ github.event.issue.number }}
+          issue-number: ${{ github.event.pull_request.number }}
           body: |
             UnitTest 체크가 필요합니다.
