@@ -32,16 +32,18 @@ jobs:
         run: ./gradlew unitTest
 
       - name: Comment when Lint was Failed
-        if: failure() && steps.lintCheck.outcome == 'failure'
         uses: peter-evans/create-or-update-comment@v2
+        if: failure() && steps.lintCheck.outcome == 'failure'
         with:
-          issue-number: ${{ github.event.pull_request.number }}
+          issue-number: ${{ github.event.issue-number }}
+          comment-author: 'github-actions[bot]'
           body: |
               KtLint 체크가 필요합니다.
       - name: Comment When UnitTest Was Failed
-        if: failure() && steps.unitTest.outcome == 'failure'
         uses: peter-evans/create-or-update-comment@v2
+        if: failure() && steps.unitTest.outcome == 'failure'
         with:
-          issue-number: ${{ github.event.pull_request.number }}
+          issue-number: ${{ github.event.issue-number }}
+          comment-author: 'github-actions[bot]'
           body: |
             UnitTest 체크가 필요합니다.

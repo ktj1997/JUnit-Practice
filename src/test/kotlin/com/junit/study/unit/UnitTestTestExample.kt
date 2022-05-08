@@ -15,7 +15,6 @@ class UnitTestTestExample {
         @BeforeAll
         fun beforeAll() {
 
-
             logger.info("Before All")
         }
 
