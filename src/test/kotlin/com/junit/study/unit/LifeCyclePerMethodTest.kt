@@ -14,8 +14,6 @@ import org.slf4j.LoggerFactory
 class LifeCyclePerMethodTest {
     companion object {
 
-
-
         val logger: Logger = LoggerFactory.getLogger(this.javaClass)
     }
     var counter: Int = 1
