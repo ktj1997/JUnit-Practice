@@ -19,6 +19,7 @@ class RepeatedTest {
     @DisplayName("반복 테스트")
     @RepeatedTest(value = 10, name = "{currentRepetition}/{totalRepetitions}")
     fun repeatedTest(repetitionInfo: RepetitionInfo) {
+
         logger.info("Test is started ${repetitionInfo.currentRepetition}/${repetitionInfo.totalRepetitions}")
         throw RuntimeException("Action Test")
     }
