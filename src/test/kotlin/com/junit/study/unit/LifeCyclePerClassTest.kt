@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory
 class LifeCyclePerClassTest {
     companion object {
 
-
         val logger: Logger = LoggerFactory.getLogger(this.javaClass)
     }
 
