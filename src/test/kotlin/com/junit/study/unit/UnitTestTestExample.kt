@@ -14,6 +14,8 @@ class UnitTestTestExample {
         @JvmStatic
         @BeforeAll
         fun beforeAll() {
+
+
             logger.info("Before All")
         }
 
