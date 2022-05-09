@@ -33,10 +33,10 @@ jobs:
             :x: 정의되지 않은 ContainerTest 옵션입니다!
       - name: "test-all"
         if: ${{ env.OPTION == 'all' }}
-        run: ./gradlew containerTest -i
+        run: ./gradlew containerTest -i --continue
       - name: "test-s3"
         if: ${{ env.OPTION  == 's3'}}
-        run: ./gradlew containerTest -i
+        run: ./gradlew containerTest -i --continue
       - name: "failure notificaton"
         if: ${{ contains(env.TESTS,env.OPTION) && failure() }}
         uses: peter-evans/create-or-update-comment@v2
