@@ -25,7 +25,7 @@ jobs:
           COMMENT_CONTENT: ${{ github.event.comment.body }}
         with:
           script: |
-            command = github.event.comment.body.split()
+            command = ${{ github.event.comment.body }}.split()
             set_env("OPTION", command[1])
   container-test:
     runs-on: ubuntu-latest
