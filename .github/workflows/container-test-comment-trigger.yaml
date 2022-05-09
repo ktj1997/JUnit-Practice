@@ -22,6 +22,8 @@ jobs:
             input = '${{ github.event.comment.body }}'
             commands = input.split()
             set_env("OPTION", commands[1])
+            println(commands[1])
+            println('${{env.OPTION}}')
   container-test:
     runs-on: ubuntu-latest
     needs: split-input
@@ -37,14 +39,13 @@ jobs:
           path: |
               ~/.gradle/caches
               ~/.gradle/wrapper
-              key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-              restore-keys: |
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
               ${{ runner.os }}-gradle-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
       - name: "Check Option is valid"
-        id: option-validation
         if: ${{ !contains(env.TESTS,env.OPTION) }}
         uses: peter-evans/create-or-update-comment@v2
         with:
@@ -68,10 +69,10 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: "test-all"
-        if: ${{ env.OPTION }} == 'all'
+        if: ${{ env.OPTION == 'all' }}
         run: ./gradlew containerTest 
       - name: "test-s3"
-        if: ${{ env.OPTION}}== 's3'
+        if: ${{ env.OPTION  == 's3' }}
         run: ./gradlew containerTest 
       - name: "failure notificaton"
         if: ${{ contains(env.TESTS,env.OPTION) && failure() }}
