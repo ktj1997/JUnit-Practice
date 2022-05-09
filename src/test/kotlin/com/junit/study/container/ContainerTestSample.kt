@@ -22,7 +22,5 @@ class ContainerTestSample @Autowired constructor(
     fun startContainerTest() {
         val myNodeURL = env["my-node.url"]
         log.info(myNodeURL)
-
-        throw RuntimeException("왜 됨")
     }
 }
