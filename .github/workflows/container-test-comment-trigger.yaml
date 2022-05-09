@@ -45,10 +45,10 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: "test-all"
-        if: ${{env.OPTION }} == 'all'
+        if: ${{ env.OPTION == 'all' }}
         run: ./gradlew containerTest --continue
       - name: "test-s3"
-        if: ${{env.OPTION}}== 's3'
+        if: ${{ env.OPTION  == 's3'}}
         run: ./gradlew containerTest --continue
       - name: "failure notificaton"
         if: ${{ contains(env.TESTS,env.OPTION) && failure() }}
