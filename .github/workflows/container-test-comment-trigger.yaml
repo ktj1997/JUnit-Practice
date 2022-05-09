@@ -42,19 +42,19 @@ jobs:
             :x: 정의되지 않은 ContainerTest 옵션입니다!
       - name: "test-all"
         if: ${{env.OPTION }} == 'all'
-        run: ./gradlew ${{ env.GRADLE_PORXY_JAVA_OPTS }} containerTest --continue
+        run: ./gradlew containerTest
       - name: "test-s3"
         if: ${{env.OPTION}}== 's3'
-        run: ./gradlew ${{ env.GRADLE_PORXY_JAVA_OPTS }} :dacentro-s3:containerTest --continue
+        run: ./gradlew containerTest -
       - name: "failure notificaton"
-        if: ${{ contains(env.TESTS,env.OPTION) }} && failure()
+        if: ${{ contains(env.TESTS,env.OPTION) && failure() }}
         uses: peter-evans/create-or-update-comment@v2
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
             :x: 컨테이너 테스트를 실패하였습니다.
       - name: "success notificaton"
-        if: ${{ contains(env.TESTS,env.OPTION) }} && success()
+        if: ${{ contains(env.TESTS,env.OPTION) && success() }}
         uses: peter-evans/create-or-update-comment@v2
         with:
           issue-number: ${{ github.event.issue.number }}
