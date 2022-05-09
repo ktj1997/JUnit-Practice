@@ -26,7 +26,8 @@ jobs:
             
             env_file = os.getenv('GITHUB_ENV')
             with open(env_file, "a") as myfile:
-            myfile.write('OPTION=%s'%(commands[1]))
+              myfile.write('OPTION=%s' %(commands[1]))
+            print(${{env.OPTION}})
   container-test:
     runs-on: ubuntu-latest
     needs: split-input
