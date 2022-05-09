@@ -5,9 +5,7 @@ on:
     types: [created]
 
 env:
-  TESTS: 
-    - all
-    - s3
+  TESTS: "all,s3"
 
 jobs:
   check-out-repository:
