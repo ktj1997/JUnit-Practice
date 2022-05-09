@@ -17,15 +17,16 @@ jobs:
   split-input:
     runs-on: ubuntu-latest
     needs: check-out-repository
-  - name: split
-    uses: jannekem/run-python-script-action@v1
-    env:
-      COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
-      COMMENT_CONTENT: ${{ github.event.comment.body }}
-    with:
-      script: |
-        command = github.event.comment.body.split()
-        set_env("OPTION", command[1])
+    steps:
+      - name: split
+        uses: jannekem/run-python-script-action@v1
+        env:
+          COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
+          COMMENT_CONTENT: ${{ github.event.comment.body }}
+        with:
+          script: |
+            command = github.event.comment.body.split()
+            set_env("OPTION", command[1])
   container-test:
     runs-on: ubuntu-latest
     needs: [check-out-repository,split-input]
