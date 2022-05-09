@@ -41,7 +41,7 @@ tasks.withType<Test> {
 
 task<Test>("unitTest") {
     group = "verification"
-    description = "containerTest"
+    description = "unitTest"
 
     useJUnitPlatform {
         includeTags("unit")
