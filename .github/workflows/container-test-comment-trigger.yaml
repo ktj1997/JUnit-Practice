@@ -1,0 +1,74 @@
+name: conatiner-test-comment-trigger
+
+on:
+  issue_comment:
+    types: [created]
+
+env:
+  HTTP_PROXY: http://sec-proxy.k9e.io:3128/
+  HTTPS_PROXY: http://sec-proxy.k9e.io:3128/
+  NO_PROXY: localhost,127.0.0.1,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12,.k9e.io,.kakaoi.com,.kakaoicdn.net,.k9etool.io,.k5d.io,.kakaoenterprise.com,.kakaoicloud.com,.kakaoi.io,.kakaoi.ai,github.kakaoenterprise.in,idock.daumkakao.io,mdock.daumkakao.io,argo.storage.d.k5d.io
+  GRADLE_PORXY_JAVA_OPTS: -Dhttp.proxyHost=sec-proxy.k9e.io -Dhttp.proxyPort=3128 -Dhttps.proxyHost=sec-proxy.k9e.io -Dhttps.proxyPort=3128 -Dhttp.nonProxyHosts=maven.daumcorp.com,repo.daumkakao.io -Dhttps.nonProxyHosts=repo.daumkakao.io
+  TESTS: [all, s3]
+
+jobs:
+  init-test-configuration:
+    if: ${{ startsWith(github.event.comment.body, '컨테이너')}}
+    runs-on: [ k8s ]
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - name: Insert Dynmaic Configuration to gradle.properties
+        shell: bash
+        run: |
+          mkdir -p ~/.gradle/
+          echo "${GRADLE_PROPERTIES}" >> ~/.gradle/gradle.properties
+
+      - name: clean
+        run: ./gradlew ${{ env.GRADLE_PORXY_JAVA_OPTS }} clean
+
+  split-input:
+    runs-on: [ k8s ]
+    needs: init-test-configuration
+  - name: split
+    uses: jannekem/run-python-script-action@v1
+    env:
+      COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
+      COMMENT_CONTENT: ${{ github.event.comment.body }}
+    with:
+      script: |
+        command = github.event.comment.body.split()
+        set_env("OPTION", command[1])
+  container-test:
+    runs-on: [ k8s ]
+    needs: [init-test-configuration,split-input]
+    steps:
+      - name: "Check Option is valid"
+        id: option-validation
+        if: ${{ !contains(env.TESTS,env.OPTION) }}
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            :x: 정의되지 않은 ContainerTest 옵션입니다!
+      - name: "test-all"
+        if: ${{env.OPTION }} == 'all'
+        run: ./gradlew ${{ env.GRADLE_PORXY_JAVA_OPTS }} containerTest --continue
+      - name: "test-s3"
+        if ${{env.OPTION == 's3'}}
+        run: ./gradlew ${{ env.GRADLE_PORXY_JAVA_OPTS }} :dacentro-s3:containerTest --continue
+      - name: "failure notificaton"
+        if: ${{ contains(env.TESTS,env.OPTION) }} && failure()
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            :x: 컨테이너 테스트를 실패하였습니다.
+      - name: "success notificaton"
+        if: ${{ contains(env.TESTS,env.OPTION) }} && success()
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            :white_check_mark: 컨테이너 테스트를 통과하였습니다.
+
+
