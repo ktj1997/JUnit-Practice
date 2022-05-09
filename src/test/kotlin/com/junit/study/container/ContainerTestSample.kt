@@ -23,6 +23,6 @@ class ContainerTestSample @Autowired constructor(
         val myNodeURL = env["my-node.url"]
         log.info(myNodeURL)
 
-        throw RuntimeException()
+        throw RuntimeException("왜 됨")
     }
 }
