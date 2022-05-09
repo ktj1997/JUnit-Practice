@@ -43,7 +43,7 @@ jobs:
         if: ${{env.OPTION }} == 'all'
         run: ./gradlew ${{ env.GRADLE_PORXY_JAVA_OPTS }} containerTest --continue
       - name: "test-s3"
-        if ${{env.OPTION}}== 's3'
+        if: ${{env.OPTION}}== 's3'
         run: ./gradlew ${{ env.GRADLE_PORXY_JAVA_OPTS }} :dacentro-s3:containerTest --continue
       - name: "failure notificaton"
         if: ${{ contains(env.TESTS,env.OPTION) }} && failure()
