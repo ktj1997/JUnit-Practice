@@ -24,6 +24,8 @@ jobs:
           java-version: 11
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+      - name: clean
+        run: ./gradlew clean
       - name: "Check Option is valid"
         if: ${{ !contains(env.TESTS,env.OPTION) }}
         uses: peter-evans/create-or-update-comment@v2
