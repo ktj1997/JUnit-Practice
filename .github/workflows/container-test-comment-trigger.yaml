@@ -62,17 +62,17 @@ jobs:
           path: |
               ~/.gradle/caches
               ~/.gradle/wrapper
-              key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-              restore-keys: |
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
               ${{ runner.os }}-gradle-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: "test-all"
-        if: ${{env.OPTION }} == 'all'
-        run: ./gradlew containerTest
+        if: ${{ env.OPTION }} == 'all'
+        run: ./gradlew containerTest 
       - name: "test-s3"
-        if: ${{env.OPTION}}== 's3'
-        run: ./gradlew containerTest
+        if: ${{ env.OPTION}}== 's3'
+        run: ./gradlew containerTest 
       - name: "failure notificaton"
         if: ${{ contains(env.TESTS,env.OPTION) && failure() }}
         uses: peter-evans/create-or-update-comment@v2
@@ -81,6 +81,7 @@ jobs:
           body: |
             :x: 컨테이너 테스트를 실패하였습니다.
       - name: "success notificaton"
+
         if: ${{ contains(env.TESTS,env.OPTION) && success() }}
         uses: peter-evans/create-or-update-comment@v2
         with:
