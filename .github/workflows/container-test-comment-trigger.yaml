@@ -19,11 +19,14 @@ jobs:
           COMMENT_CONTENT: ${{ github.event.comment.body }}
         with:
           script: |
+            import os
+            
             input = '${{ github.event.comment.body }}'
             commands = input.split()
-            set_env("OPTION", commands[1])
-            print(commands[1])
-            print('${{env.OPTION}}')
+            
+            env_file = os.getenv('GITHUB_ENV')
+            with open(env_file, "a") as myfile:
+            myfile.write('OPTION=%s'%(commands[1]))
   container-test:
     runs-on: ubuntu-latest
     needs: split-input
