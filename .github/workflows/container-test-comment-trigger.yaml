@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: split
         run: |
-          echo "OPTION=$(echo ${{github.event.comment.body}} | cut -d " " -f 2") >> $GITHUB_ENV
+          echo "OPTION=$(echo ${{github.event.comment.body}} | cut -d " " -f 2)" >> $GITHUB_ENV
           echo ${{ env.OPTION }}
   container-test:
     runs-on: ubuntu-latest
