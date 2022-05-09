@@ -1,0 +1,63 @@
+name: conatiner-test-comment-trigger
+
+on:
+  issue_comment:
+    types: [created]
+
+env:
+  TESTS: [all, s3]
+
+jobs:
+  check-out-repository:
+    runs-on: ubuntu-latest
+    if: ${{ startsWith(github.event.comment.body, '컨테이너')}}
+    steps:
+      - uses: actions/checkout@v2.3.1
+
+  split-input:
+    runs-on: ubuntu-latest
+    needs: check-out-repository
+    steps:
+      - name: split
+        uses: jannekem/run-python-script-action@v1
+        env:
+          COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
+          COMMENT_CONTENT: ${{ github.event.comment.body }}
+        with:
+          script: |
+            command = github.event.comment.body.split()
+            set_env("OPTION", command[1])
+  container-test:
+    runs-on: ubuntu-latest
+    needs: [check-out-repository,split-input]
+    steps:
+      - name: "Check Option is valid"
+        id: option-validation
+        if: ${{ !contains(env.TESTS,env.OPTION) }}
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            :x: 정의되지 않은 ContainerTest 옵션입니다!
+      - name: "test-all"
+        if: ${{env.OPTION }} == 'all'
+        run: ./gradlew ${{ env.GRADLE_PORXY_JAVA_OPTS }} containerTest --continue
+      - name: "test-s3"
+        if: ${{env.OPTION}}== 's3'
+        run: ./gradlew ${{ env.GRADLE_PORXY_JAVA_OPTS }} :dacentro-s3:containerTest --continue
+      - name: "failure notificaton"
+        if: ${{ contains(env.TESTS,env.OPTION) }} && failure()
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            :x: 컨테이너 테스트를 실패하였습니다.
+      - name: "success notificaton"
+        if: ${{ contains(env.TESTS,env.OPTION) }} && success()
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            :white_check_mark: 컨테이너 테스트를 통과하였습니다.
+
+
