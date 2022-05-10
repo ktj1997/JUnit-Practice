@@ -17,13 +17,28 @@ jobs:
       - name: check-option
         run: |
             echo ${{ env.OPTION }}
+      - uses: xt0rted/pull-request-comment-branch@v1
+        id: comment-branch
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.comment-branch.outputs.head_ref }}
       - name: SetUp JDK 11
         uses: actions/setup-java@v1
         with:
           java-version: 11
+      - name: Cache Gradle
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+      - name: clean
+        run: ./gradlew clean
       - name: "Check Option is valid"
         if: ${{ !contains(env.TESTS,env.OPTION) }}
         uses: peter-evans/create-or-update-comment@v2
@@ -33,10 +48,10 @@ jobs:
             :x: 정의되지 않은 ContainerTest 옵션입니다!
       - name: "test-all"
         if: ${{ env.OPTION == 'all' }}
-        run: ./gradlew containerTest -i
+        run: ./gradlew containerTest -i --continue
       - name: "test-s3"
         if: ${{ env.OPTION  == 's3'}}
-        run: ./gradlew containerTest -i
+        run: ./gradlew containerTest -i --continue
       - name: "failure notificaton"
         if: ${{ contains(env.TESTS,env.OPTION) && failure() }}
         uses: peter-evans/create-or-update-comment@v2
