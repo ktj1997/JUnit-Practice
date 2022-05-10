@@ -9,6 +9,7 @@ env:
 
 jobs:
   container-test:
+    if: ${{ startsWith(github.event.comment.body, '/container')}}
     runs-on: ubuntu-latest
     steps:
       - name: split
